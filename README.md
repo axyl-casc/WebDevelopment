@@ -1,2 +1,2 @@
 # WebDevelopment
-web development assignments
+Web Development Assignments for COMP 3612
