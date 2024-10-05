@@ -1,124 +1,248 @@
-/* General Reset and Base Styling */
-body, h1, h2, p, ul, li, a {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+
+body, html {
+   margin: 0;
+   padding: 0;
+   font-family: 'Open Sans', sans-serif;
+   background-color: #f4f4f4;
+   color: #272727;
 }
 
-body {
-    font-family: 'Arial', sans-serif;
-    line-height: 1.6;
-    background-color: #f4f4f4;
-    color: #333;
-}
-
-/* Header Styling */
 header {
-    background: #333;
-    color: #fff;
-    padding: 10px 20px;
-    text-align: center;
+   background-image: url('images/florence.jpg');
+   background-size: cover;
+   background-position: center;
+   text-align: center;
+   padding: 80px 20px;
+   color: #ffffff;
+   position: flex;
 }
 
-header h1 {
-    margin-bottom: 10px;
+header h2 {
+   font-size: 36px;
+   font-weight: 600;
+   margin-bottom: 10px;
 }
 
-header nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
+header p {
+   font-size: 18px;
+   margin-bottom: 30px;
 }
 
-header nav ul li {
-    margin: 0 15px;
+
+header div {
+   padding: 50px;
+   margin: 0 auto; 
+   /*
+   margin: 0 auto
+   from asking chat gpt "how to center the header div"
+   */
+   width: 80%; 
+   text-align: left; 
 }
 
-header nav ul li a {
-    text-decoration: none;
-    color: #fff;
-    font-weight: bold;
+header a {
+   display: inline;
+   padding: 12px 30px;
+   border: 2px solid #51279b; 
+   background-color: #51279b; 
+   color: #eeeeee;
+   text-decoration: none;
+   font-weight: 600;
+   border-radius: 4px;
+   transition: all 0.3s ease;
 }
 
-header nav ul li a:hover {
-    color: #f4a261;
+header a:hover {
+   background-color: #8662c7;
+   border-color: #8662c7; 
+   color: #ffffff;
 }
 
-/* Main Content Styling */
+#topbar {
+   padding: 10px 20px;
+   display: flex;
+   align-items: center;
+   position: relative;
+}
+
+/* 
+Modified from a previous chat gpt response,
+the code that made the heart and message icon
+prompt "how can i display an image with css"
+*/
+#topbar::before {
+   content: "";
+   background-image: url('images/logo.png');
+   background-size: contain;
+   background-repeat: no-repeat;
+   width: 50px; 
+   height: 50px;
+   display: inline-block;
+   margin-right: 20px;
+}
+/* to here */
+
+#topbar ul {
+   list-style: none;
+   margin: 0;
+   padding: 0;
+   display: flex;
+}
+
+#topbar li {
+   display: inline;
+   padding-right: 10px;
+   padding-left:10px; 
+}
+
+#topbar a {
+   color: #ffffff; 
+   background-color: #51279b; 
+   border: 2px solid #51279b; 
+   border-radius: 4px; 
+   text-decoration: none;
+   padding: 10px 20px; 
+   transition: all 0.3s ease; 
+}
+
+#topbar a:hover {
+   background-color: #8662c7;
+   border-color: #8662c7; 
+   color: #e9e9e9;
+}
+
+
+/* 
+
+lots of trial and error, some code copied from
+https://www.w3schools.com/css/css3_flexbox_container.asp 
+
+*/
 main {
-    padding: 20px;
-}
-
-.cards {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
+   display: flex;
+   justify-content: space-around;
+   flex-wrap: wrap;
+   padding: 20px;
 }
 
 .card {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    margin: 15px;
-    width: 300px;
-    text-align: center;
+   background: #efefef;
+   border-radius: 8px;
+   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+   margin: 20px;
+   overflow: hidden;
+   width: calc(33% - 40px);
+   transition: transform 0.3s ease;
 }
+
+/* to here */
+
+
+.card:hover {
+   transform: translateY(-10px);
+}
+
+
+/* Generated from Chat gpt 
+
+prompt: how can i make the cards stack when there is a smaller screen
+*/
+
+/* Media Query for Smaller Screens */
+@media (max-width: 768px) {
+   main {
+      flex-direction: column; /* Stack the cards vertically */
+      align-items: center; /* Center the cards */
+   }
+
+   .card {
+      width: 90%; /* Make each card take almost full width */
+      margin: 10px 0; /* Reduce margin for a tighter stack */
+   }
+   #topbar ul {
+      flex-direction: column; /* Stack the navigation items */
+      align-items: center;    /* Center align the items */
+   }
+
+   #topbar li {
+         display: block; /* Display each item as a block element */
+         width: 100%;    /* Make each item take full width */
+         text-align: center;
+         margin: 0;      /* Remove extra spacing */
+   }
+
+   #topbar a {
+         padding: 15px;  /* Adjust padding for better spacing */
+         display: block; /* Make each link fill the block */
+         width: 100%;    /* Make each link take full width */
+   }
+}
+
+/* to here */
 
 .card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
+   width: 100%;
+   height: auto;
+   border-bottom: 2px solid #f3f3f3;
 }
 
-.card h2 {
-    font-size: 1.5em;
-    margin: 15px 0;
+.card h3 {
+   margin: 15px;
+   font-size: 22px;
+   font-weight: 600;
 }
 
-.card p {
-    padding: 0 15px;
+.card .description {
+   margin: 15px;
+   font-size: 16px;
+   color: #646464;
 }
 
-.card a {
-    display: inline-block;
-    margin: 15px;
-    padding: 10px 20px;
-    text-decoration: none;
-    color: #fff;
-    background: #0077b6;
-    border-radius: 5px;
+.card .social {
+   display: flex;
+   padding: 10px 15px;
+   border-top: 1px solid #ddd;
+   background-color: #f9f9f9;
 }
 
-.card a:hover {
-    background: #023e8a;
+.social span {
+   display: inline-flex;
+   font-size: 14px;
+   color: #464646;
 }
 
-/* Footer Styling */
-footer {
-    background: #333;
-    color: #fff;
-    text-align: center;
-    padding: 20px;
+
+
+
+/* 
+CSS from chatgpt below
+prompt: "how can i display an image in css"
+*/
+
+.heart::before {
+   content: "";
+   display: inline-block;
+   width: 16px;
+   height: 16px;
+   margin-right: 8px;
+   background-image: url('images/heart.png'); 
+   background-size: cover;
+}
+.comment::before{
+   content: "";
+   display: inline-block;
+   width: 16px;
+   height: 16px;
+   margin-right: 8px;
+   background-image: url('images/comment.png');
+   background-size: cover;
+}
+/* to here */
+
+.social .heart {
+   margin-right: 15px; /* Adds spacing between heart and comment */
 }
 
-footer nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    padding-top: 10px;
-}
-
-footer nav ul li {
-    margin: 0 15px;
-}
-
-footer nav ul li a {
-    text-decoration: none;
-    color: #f4f4f4;
-}
-
-footer nav ul li a:hover {
-    color: #f4a261;
+.social .comment {
+   margin-left: auto;  /* Pushes the comment element to the right */
 }
