@@ -240,9 +240,9 @@ prompt: "how can i display an image in css"
 /* to here */
 
 .social .heart {
-   margin-right: 15px; /* Adds spacing between heart and comment */
+   margin-right: 15px; 
 }
 
 .social .comment {
-   margin-left: auto;  /* Pushes the comment element to the right */
+   margin-left: auto; 
 }
