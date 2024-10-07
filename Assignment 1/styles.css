@@ -84,6 +84,7 @@ header a {
    font-weight: 600;
    border-radius: 4px;
    transition: all 0.3s ease;
+   margin-bottom: 5px;
 }
 
 header a:hover {
@@ -267,4 +268,45 @@ footer a {
 
 footer a:hover {
    color: #ffaaaa;            
+}
+
+
+
+
+
+@media (max-width: 768px) {
+   main {
+      flex-direction: column;
+      align-items: center;
+   }
+
+   .card {
+      width: 90%;
+      margin: 10px 0;
+   }
+
+   #topbar ul {
+      flex-direction: column;
+      align-items: center;
+   }
+
+   #topbar li {
+      display: block;
+      width: 100%;
+      text-align: center;
+      margin: 0;
+   }
+
+   #topbar a {
+      padding: 15px;
+      display: block;
+      width: 100%;
+   }
+   header div{
+      padding: 0;
+      width: 100%;
+   }
+   header img{
+      width: 95%;
+   }
 }
