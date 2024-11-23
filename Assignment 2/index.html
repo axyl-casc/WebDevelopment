@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 Dashboard</title>
+    <script src="app.js" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-white">
+    <!-- Header -->
+    <header class="bg-red-600 py-4">
+        <div class="container mx-auto flex justify-between items-center px-4">
+            <h1 class="text-3xl font-bold">F1 Dashboard</h1>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="#" id="homeLink" class="hover:underline">Home</a></li>
+                    <li><a href="#" id="racesLink" class="hover:underline">Races</a></li>
+                    <li><a href="#" id="favoritesLink" class="hover:underline">Favorites</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="app" class="container mx-auto px-4 py-8">
+        <!-- Home View -->
+        <section id="homeView" class="hidden">
+            <h2 class="text-2xl font-bold mb-4">Select a Season</h2>
+            <select id="seasonSelect" class="bg-gray-800 text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+                <option value="" disabled selected>Select Season</option>
+                <!-- Populate seasons dynamically -->
+            </select>
+        </section>
+
+        <!-- Races View -->
+        <section id="racesView" class="hidden">
+            <h2 class="text-2xl font-bold mb-4">Races</h2>
+            <ul id="racesList" class="space-y-4">
+                <!-- Race items will be dynamically added here -->
+            </ul>
+        </section>
+
+        <!-- Favorites Popup -->
+        <dialog id="favoritesPopup" class="bg-gray-800 rounded-lg shadow-lg p-6">
+            <h2 class="text-2xl font-bold mb-4">Favorites</h2>
+            <ul id="favoritesList" class="space-y-4">
+                <!-- Favorite items will be dynamically added here -->
+            </ul>
+            <button id="closeFavorites" class="mt-4 bg-red-600 px-4 py-2 rounded hover:bg-red-700">
+                Close
+            </button>
+        </dialog>
+        <!-- Constructor Popup -->
+<dialog id="constructorPopup" class="bg-gray-800 rounded-lg shadow-lg p-6">
+    <h2 class="text-2xl font-bold mb-4">Constructor Details</h2>
+    <div id="constructorDetails" class="text-gray-300">
+        <!-- Constructor details will be dynamically added here -->
+    </div>
+    <button id="closeConstructorPopup" class="mt-4 bg-red-600 px-4 py-2 rounded hover:bg-red-700">
+        Close
+    </button>
+</dialog>
+
+<!-- Driver Popup -->
+<dialog id="driverPopup" class="bg-gray-800 rounded-lg shadow-lg p-6">
+    <h2 class="text-2xl font-bold mb-4">Driver Details</h2>
+    <div id="driverDetails" class="text-gray-300">
+        <!-- Driver details will be dynamically added here -->
+    </div>
+    <button id="closeDriverPopup" class="mt-4 bg-red-600 px-4 py-2 rounded hover:bg-red-700">
+        Close
+    </button>
+</dialog>
+
+<!-- Circuit Popup -->
+<dialog id="circuitPopup" class="bg-gray-800 rounded-lg shadow-lg p-6">
+    <h2 class="text-2xl font-bold mb-4">Circuit Details</h2>
+    <div id="circuitDetails" class="text-gray-300">
+        <!-- Circuit details will be dynamically added here -->
+    </div>
+    <button id="closeCircuitPopup" class="mt-4 bg-red-600 px-4 py-2 rounded hover:bg-red-700">
+        Close
+    </button>
+</dialog>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 py-4 text-center">
+        <p class="text-gray-500">© 2024 F1 Dashboard. All rights reserved.</p>
+    </footer>
+</body>
+</html>
