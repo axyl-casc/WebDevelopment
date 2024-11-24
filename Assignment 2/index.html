@@ -208,17 +208,48 @@
     </div>
 </dialog>
 
-        
-
-<!-- Driver Popup -->
-<dialog id="driverPopup" class="bg-gray-800 rounded-lg shadow-lg p-6">
-    <h2 class="text-2xl font-bold mb-4">Driver Details</h2>
-    <div id="driverDetails" class="text-gray-300">
-        <!-- Driver details will be dynamically added here -->
+<dialog id="driverPopup" class="bg-gray-800 rounded-lg shadow-lg p-4 max-w-[90%] max-h-[90vh] mx-auto overflow-auto resize">
+    <h2 id="driverPopupTitle" class="text-2xl font-bold mb-4 text-white">Driver Details</h2>
+    <div class="flex flex-col md:flex-row h-full">
+        <!-- Left Column: Driver Details -->
+        <div id="driverDetails" class="text-gray-300 space-y-2 md:w-1/2 md:pr-4 overflow-y-auto">
+            <!-- Driver details will be dynamically added here -->
+        </div>
+        <!-- Right Column: Race Results Table -->
+        <div class="md:w-1/2 md:pl-4 overflow-y-auto mx-5 px-12">
+            <table class="table-auto w-full bg-white rounded-lg shadow border-collapse">
+                    <thead class="bg-gray-200 text-left sticky top-0">
+                        <tr>
+                            <th class="px-4 py-2 cursor-pointer" data-key="race">
+                                Race <span class="sort-indicator"></span>
+                            </th>
+                            <th class="px-4 py-2 cursor-pointer" data-key="position">
+                                Position <span class="sort-indicator"></span>
+                            </th>
+                            <th class="px-4 py-2 cursor-pointer" data-key="time">
+                                Time <span class="sort-indicator"></span>
+                            </th>
+                            <th class="px-4 py-2 cursor-pointer" data-key="points">
+                                Points <span class="sort-indicator"></span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="driverResults" class="text-gray-700">
+                        <!-- Rows will be dynamically added here -->
+                    </tbody>
+                </table>
+        </div>
     </div>
-    <button id="closeDriverPopup" class="mt-4 bg-red-600 px-4 py-2 rounded hover:bg-red-700">
-        Close
-    </button>
+    <div class="mt-4 flex justify-between">
+        <!-- Add to Favorites Button -->
+        <button id="addToFavoritesButton" class="bg-green-600 px-4 py-2 rounded hover:bg-green-700 text-white">
+            Add to Favorites
+        </button>
+        <!-- Close Button -->
+        <button id="closeDriverPopup" class="bg-red-600 px-4 py-2 rounded hover:bg-red-700 text-white">
+            Close
+        </button>
+    </div>
 </dialog>
 
 <!-- Circuit Popup -->

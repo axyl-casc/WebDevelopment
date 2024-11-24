@@ -79,7 +79,7 @@ async function displayRaceDetails(race) {
     document.querySelector("#no-race").classList.add("hidden");
 
     // Show the raceDetailsView section
-    document.getElementById('raceDetailsView').classList.remove('hidden');
+    document.querySelector('#raceDetailsView').classList.remove('hidden');
 
     // Update the headers with race name and date
     document.querySelector("#raceDetailsHeader").innerHTML = ` <h3 class="text-2xl font-bold mb-2">${race.name}</h3><p class="text-gray-600">Year: ${race.year} - Round: ${race.round}</p>`;
@@ -95,7 +95,7 @@ document.querySelector('#raceResultsHeader').innerHTML = `
 `;
 
     // Populate the Qualifying Table
-    const qualifyingTableBody = document.getElementById('qualifyingTableBody');
+    const qualifyingTableBody = document.querySelector('#qualifyingTableBody');
     qualifyingTableBody.innerHTML = ''; // Clear previous content
 
     qualifying.forEach((qualify) => {
@@ -117,7 +117,7 @@ document.querySelector('#raceResultsHeader').innerHTML = `
     });
 
     // Populate the Race Results Table
-    const raceResultsTableBody = document.getElementById('raceResultsTableBody');
+    const raceResultsTableBody = document.querySelector('#raceResultsTableBody');
     raceResultsTableBody.innerHTML = ''; // Clear previous content
 
     results.forEach((result) => {
@@ -138,6 +138,89 @@ document.querySelector('#raceResultsHeader').innerHTML = `
     });
 }
 
+async function showDriverPopup(driverId) {
+    try {
+        // Fetch driver details
+        const driverDetailsUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1//driverResults.php? 
+     driver=${driverId}&season=${localStorage.getItem("season")}`;
+        const driver = await fetchData(driverDetailsUrl, `driver_${driverId}`);
+        
+        if (!driver) {
+            console.error("Driver not found.");
+            return;
+        }
+
+        console.log(driver);
+
+        // Populate the driver details
+        const detailsContainer = document.querySelector('#driverDetails');
+        detailsContainer.innerHTML = `
+            <p><strong>First Name:</strong> ${driver.givenName}</p>
+            <p><strong>Last Name:</strong> ${driver.familyName}</p>
+            <p><strong>Nationality:</strong> ${driver.nationality}</p>
+            <p><strong>Date of Birth:</strong> ${driver.dateOfBirth}</p>
+        `;
+
+        // Fetch race results for the driver
+        const raceResultsUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?driver=${driver.driverId}`;
+        const raceResults = await fetchData(raceResultsUrl, `driver_race_results_${driverId}`);
+        console.log(raceResultsUrl);
+        console.log(raceResults);
+        // Populate the race results table
+        const raceResultsTableBody = document.querySelector('#driverResults');
+        raceResultsTableBody.innerHTML = ""; // Clear any existing rows
+        if (raceResults && raceResults.length > 0) {
+            raceResults.forEach(result => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="border px-4 py-2" data-key="race">${result.raceName}</td>
+                    <td class="border px-4 py-2" data-key="position">${result.position || "N/A"}</td>
+                    <td class="border px-4 py-2" data-key="time">${result.time || "N/A"}</td>
+                    <td class="border px-4 py-2" data-key="points">${result.points || "N/A"}</td>
+                `;
+                
+                raceResultsTableBody.appendChild(row);
+            });
+        } else {
+            // If no race results, add a "No results" row
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td colspan="4" class="text-center px-4 py-2">No race results found for this driver.</td>
+            `;
+            raceResultsTableBody.appendChild(row);
+        }
+
+        // Add event listener for "Add to Favorites" button
+        const addToFavoritesButton = document.querySelector('#addToFavoritesButton');
+        addToFavoritesButton.onclick = () => {
+            addToFavorites("drivers", {
+                id: driver.driverId,
+                name: `${driver.givenName} ${driver.familyName}`,
+                nationality: driver.nationality
+            });
+        };
+
+        // Show the popup
+        const popup = document.querySelector('#driverPopup');
+        popup.showModal();
+    } catch (error) {
+        console.error("Error fetching driver details or race results:", error);
+    }
+}
+
+// Helper function to fetch data
+async function fetchData(url, cacheKey) {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('Network response was not ok');
+    return response.json();
+}
+
+// Mock function to simulate adding items to favorites
+function addToFavorites(type, data) {
+    console.log(`Added to favorites (${type}):`, data);
+}
+
+
 async function showConstructorPopup(constructorId) {
     try {
         // Fetch constructor details
@@ -152,7 +235,7 @@ async function showConstructorPopup(constructorId) {
         console.log(constructor);
 
         // Populate the constructor details
-        const detailsContainer = document.getElementById('constructorDetails');
+        const detailsContainer = document.querySelector('#constructorDetails');
         detailsContainer.innerHTML = `
             <p><strong>Name:</strong> ${constructor.name}</p>
             <p><strong>Nationality:</strong> ${constructor.nationality}</p>
@@ -206,7 +289,7 @@ async function showConstructorPopup(constructorId) {
         
 
         // Add event listener for "Add to Favorites" button
-        const addToFavoritesButton = document.getElementById('addToFavoritesButton');
+        const addToFavoritesButton = document.querySelector('#addToFavoritesButton');
         addToFavoritesButton.onclick = () => {
             addToFavorites("constructors", {
                 id: constructor.id,
@@ -216,7 +299,7 @@ async function showConstructorPopup(constructorId) {
         };
 
         // Show the popup
-        const popup = document.getElementById('constructorPopup');
+        const popup = document.querySelector('#constructorPopup');
         popup.showModal();
     } catch (error) {
         console.error("Error fetching constructor details or race results:", error);
