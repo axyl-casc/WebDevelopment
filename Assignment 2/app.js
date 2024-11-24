@@ -85,7 +85,6 @@ async function displayRaceDetails(race) {
     document.querySelector("#raceDetailsHeader").innerHTML = ` <h3 class="text-2xl font-bold mb-2">${race.name}</h3><p class="text-gray-600">Year: ${race.year} - Round: ${race.round}</p>`;
 // Update the Qualifying Header
 qualifyingHeader.innerHTML = `
-
     <h4 class="text-lg font-semibold mt-4">Qualifying</h4>
 `;
 
