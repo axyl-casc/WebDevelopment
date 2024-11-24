@@ -391,7 +391,11 @@ document.querySelector('#closeFavorites').addEventListener('click', () => {
     popup.close();
 });
 
-homeLink.addEventListener('click', () => showView(homeView));
+homeLink.addEventListener('click', () => {
+    // reset the season selector
+    document.querySelector("#seasonSelect").value = "";
+    showView(homeView);
+});
 racesLink.addEventListener('click', () => showView(racesView));
 favoritesLink.addEventListener('click', () => showFavoritesPopup());
 closeFavorites.addEventListener('click', () => favoritesPopup.close());
