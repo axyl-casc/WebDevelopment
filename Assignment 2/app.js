@@ -49,7 +49,7 @@ async function displayRaces(season) {
 
     racesList.innerHTML = '';
 
-    const buttonTemplate = document.querySelector("#button-template");
+    const buttonTemplate = document.querySelector("#results-button-template");
     response.forEach(race => {
         const li = document.createElement('li');
         li.className = "flex justify-between items-center py-2 border-b border-gray-300";
@@ -82,10 +82,10 @@ async function displayRaceDetails(race) {
     document.getElementById('raceDetailsView').classList.remove('hidden');
 
     // Update the headers with race name and date
+    document.querySelector("#raceDetailsHeader").innerHTML = ` <h3 class="text-2xl font-bold mb-2">${race.name}</h3><p class="text-gray-600">Year: ${race.year} - Round: ${race.round}</p>`;
 // Update the Qualifying Header
 qualifyingHeader.innerHTML = `
-    <h3 class="text-2xl font-bold mb-2">${race.name}</h3>
-    <p class="text-gray-600">Year: ${race.year} - Round: ${race.round}</p>
+
     <h4 class="text-lg font-semibold mt-4">Qualifying</h4>
 `;
 
