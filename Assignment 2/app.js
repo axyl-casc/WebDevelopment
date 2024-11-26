@@ -52,7 +52,7 @@ function showToast(text) {
         toast.classList.add('opacity-0');
         setTimeout(() => {
             toastContainer.classList.add('hidden');
-        }, 500); 
+        }, 500);
     }, 3000);
 }
 
@@ -128,17 +128,16 @@ async function fetchData(url, storageKey) {
  * }
  */
 async function populateSeasons() {
-    showView(homeView);
-    const url = 'https://www.randyconnolly.com/funwebdev/3rd/api/f1/races.php'; // Update API endpoint
-    const data = await fetchData(url, 'raceList');
-    const uniqueYears = [...new Set(data.map(race => race.year))];
-    uniqueYears.forEach(uniqueYear => {
+    showView(homeView); // Ensure this function shows the view as intended
+    const years = [2020, 2021, 2022, 2023]; // Define the range of years
+    years.forEach(year => {
         const option = document.createElement('option');
-        option.value = uniqueYear;
-        option.textContent = uniqueYear;
+        option.value = year;
+        option.textContent = year;
         seasonSelect.appendChild(option);
     });
 }
+
 /**
  * Displays the list of races for a given Formula 1 season.
  * 
@@ -163,7 +162,8 @@ async function populateSeasons() {
  */
 async function displayRaces(season) {
     const url = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/races.php?season=${season}`;
-    const response = await fetchData(url, "races_to_display");
+    const response = await fetchData(url, `races_to_display_${season}`);
+    console.log(season)
     console.log(response);
     localStorage.setItem("season", season);
 
@@ -220,12 +220,12 @@ async function displayRaces(season) {
 // Display race details
 async function displayRaceDetails(race) {
     // API URLs
-    const resultsUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?race=${race.round}`;
-    const qualifyingUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=${race.round}`;
+    const resultsUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?race=${race.round}&season=${localStorage.getItem("season")}`;
+    const qualifyingUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=${race.round}&season=${localStorage.getItem("season")}`;
 
     // Fetch results and qualifying data
-    const results = await fetchData(resultsUrl, `results_${race.round}`);
-    const qualifying = await fetchData(qualifyingUrl, `qualifying_${race.round}`);
+    const results = await fetchData(resultsUrl, `results_${race.round}_${localStorage.getItem("season")}`);
+    const qualifying = await fetchData(qualifyingUrl, `qualifying_${race.round}_${localStorage.getItem("season")}`);
 
     // hide selection message
     document.querySelector("#no-race").classList.add("hidden");
@@ -352,8 +352,8 @@ async function showDriverPopup(driverId) {
         `;
 
         // Fetch race results for the driver
-        const raceResultsUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?driver=${driver.driverId}`;
-        const raceResults = await fetchData(raceResultsUrl, `driver_race_results_${driverId}`);
+        const raceResultsUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?driver=${driver.driverId}&season=${localStorage.getItem("season")}`;
+        const raceResults = await fetchData(raceResultsUrl, `driver_race_results_${driverId}_${localStorage.getItem("season")}`);
         console.log(raceResultsUrl);
         console.log(raceResults);
         // Populate the race results table
@@ -422,8 +422,8 @@ async function showDriverPopup(driverId) {
 async function showConstructorPopup(constructorId) {
     try {
         // Fetch constructor details
-        const constructorDetailsUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/constructors.php?id=${constructorId}`;
-        const constructor = await fetchData(constructorDetailsUrl, `constructor_${constructorId}`);
+        const constructorDetailsUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/constructors.php?id=${constructorId}&season=${localStorage.getItem("season")}`;
+        const constructor = await fetchData(constructorDetailsUrl, `constructor_${constructorId}_${localStorage.getItem("season")}`);
 
         if (!constructor) {
             console.error("Constructor not found.");
@@ -439,8 +439,8 @@ async function showConstructorPopup(constructorId) {
         `;
 
         // Fetch race results for the constructor
-        const raceResultsUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php`;
-        const raceResults = await fetchData(raceResultsUrl, `all_race_results`);
+        const raceResultsUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?season=${localStorage.getItem("season")}`;
+        const raceResults = await fetchData(raceResultsUrl, `all_race_results_${localStorage.getItem("season")}`);
 
         // Populate the race results table
         const raceResultsTableBody = document.querySelector('#constructorResults');
