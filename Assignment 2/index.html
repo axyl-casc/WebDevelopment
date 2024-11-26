@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,16 +8,24 @@
     <script src="app.js" defer></script>
     <link href="./tailwind.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-gray-900 text-white">
     <!-- Header -->
     <header class="bg-red-600 py-4">
         <div class="container mx-auto flex justify-between items-center px-4">
             <h1 class="text-3xl font-bold">F1 Dashboard</h1>
+            <!-- Toast Container -->
+            <div id="toast-container" class="fixed top-20 right-5 hidden z-60">
+                <div id="toast"
+                    class="bg-green-600 text-white px-4 py-2 rounded shadow-md opacity-0 transition-opacity duration-500">
+                </div>
+            </div>
+
             <nav>
                 <ul class="flex space-x-6">
                     <li><a href="#" id="homeLink" class="hover:underline">Home</a></li>
                     <li><a href="#" id="racesLink" class="hover:underline">Races</a></li>
-                    <li><a href="#" id="favoritesLink" class="hover:underline">Favorites</a></li>
+                    <li><a href="#" id="favouritesLink" class="hover:underline">Favourites</a></li>
                 </ul>
             </nav>
         </div>
@@ -24,11 +33,23 @@
 
     <!-- Main Content -->
     <main id="app" class="container mx-auto px-2 py-4">
-
         <!-- Home View -->
         <section id="homeView" class="hidden">
-            <h2 class="text-2xl font-bold mb-4">Select a Season</h2>
-            <select id="seasonSelect" class="bg-gray-800 text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+
+            <section class="bg-white shadow rounded-lg p-6 mt-8">
+                <h2 class="text-xl font-semibold text-gray-700">About the F1 Dashboard</h2>
+                <p class="text-gray-600 mt-2">
+                    Welcome to the F1 Dashboard! Dive into the thrilling world of Formula 1 with detailed race results,
+                    driver stats,
+                    constructor information, and insights into legendary circuits. Whether you're a dedicated fan or a
+                    newcomer,
+                    this dashboard is your gateway to all things F1.
+                </p>
+            </section>
+            <!-- Intro by chatGPT -->
+            <h2 class="text-2xl font-bold mb-4 py-4">Select a Season</h2>
+            <select id="seasonSelect"
+                class="bg-gray-800 text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
                 <option value="" disabled selected>Select Season</option>
                 <!-- Populate seasons dynamically -->
             </select>
@@ -44,257 +65,282 @@
                         <!-- Race items will be dynamically added here -->
                     </ul>
                 </div>
-    
+
                 <!-- Right Side: Race Summary -->
                 <div class="w-auto">
                     <h2 class="text-2xl font-bold mb-4 hidden">Race Summary</h2>
                     <div id="raceSummary" class="p-4 bg-white rounded-lg shadow">
                         <p class="text-gray-600" id="no-race">Select a race to view the summary.</p>
-                            <!-- Race Details View (Initially Hidden) -->
-                            <section id="raceDetailsView" class="hidden mt-8 text-black">
-                                <div class="flex flex-col space-y-8">
-                                    <div class="flex flex-col md:flex-row md:space-x-8 space-y-8 md:space-y-0">
-                                        <!-- Qualifying Table -->
-                                        <div class="w-full md:w-1/2">
-                                            <h2 id="raceDetailsHeader"></h2>
-                                            <h2 id="qualifyingHeader" class="text-2xl font-bold mb-4">Qualifying</h2>
-                                            <!-- Responsive Wrapper -->
-                                            <div class="overflow-x-auto">
-                                                <table class="table-auto w-full bg-white rounded-lg shadow border-collapse">
-                                                    <thead class="bg-gray-200 text-left">
-                                                        <tr>
-                                                            <th class="px-4 py-2" data-key="position">Pos. <span class="sort-indicator"></span></th>
-                                                            <th class="px-4 py-2" data-key="driver">Driver <span class="sort-indicator"></span></th>
-                                                            <th class="px-4 py-2" data-key="constructor">Constructor <span class="sort-indicator"></span></th>
-                                                            <th class="px-4 py-2" data-key="Q1">Q1 <span class="sort-indicator"></span></th>
-                                                            <th class="px-4 py-2" data-key="Q2">Q2 <span class="sort-indicator"></span></th>
-                                                            <th class="px-4 py-2" data-key="Q3">Q3 <span class="sort-indicator"></span></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="qualifyingTableBody" class="text-gray-700">
-                                                        <!-- Rows will be dynamically added here -->
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                        <!-- Race Details View (Initially Hidden) -->
+                        <section id="raceDetailsView" class="hidden mt-8 text-black">
+                            <div class="flex flex-col space-y-8">
+                                <div class="flex flex-col md:flex-row md:space-x-8 space-y-8 md:space-y-0">
+                                    <!-- Qualifying Table -->
+                                    <div class="w-full md:w-1/2">
+                                        <h2 id="raceDetailsHeader"></h2>
+                                        <h2 id="qualifyingHeader" class="text-2xl font-bold mb-4">Qualifying</h2>
+                                        <!-- Responsive Wrapper -->
+                                        <div class="overflow-x-auto">
+                                            <table class="table-auto w-full bg-white rounded-lg shadow border-collapse">
+                                                <thead class="bg-gray-200 text-left">
+                                                    <tr>
+                                                        <th class="px-4 py-2" data-key="position">Pos. <span
+                                                                class="sort-indicator"></span></th>
+                                                        <th class="px-4 py-2" data-key="driver">Driver <span
+                                                                class="sort-indicator"></span></th>
+                                                        <th class="px-4 py-2" data-key="constructor">Constructor <span
+                                                                class="sort-indicator"></span></th>
+                                                        <th class="px-4 py-2" data-key="Q1">Q1 <span
+                                                                class="sort-indicator"></span></th>
+                                                        <th class="px-4 py-2" data-key="Q2">Q2 <span
+                                                                class="sort-indicator"></span></th>
+                                                        <th class="px-4 py-2" data-key="Q3">Q3 <span
+                                                                class="sort-indicator"></span></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="qualifyingTableBody" class="text-gray-700">
+                                                    <!-- Rows will be dynamically added here -->
+                                                </tbody>
+                                            </table>
                                         </div>
-                    
-                                        <!-- Race Results Table -->
-                                        <div class="w-full md:w-1/2">
-                                            <h2 id="raceResultsHeader" class="text-2xl font-bold mb-4">Race</h2>
-                                            <!-- Responsive Wrapper -->
-                                            <div class="overflow-x-auto">
-                                                <table class="table-auto w-full bg-white rounded-lg shadow border-collapse">
-                                                    <thead class="bg-gray-200 text-left">
-                                                        <tr>
-                                                            <th class="px-4 py-2 cursor-pointer" data-key="position">
-                                                                Pos. <span class="sort-indicator"></span>
-                                                            </th>
-                                                            <th class="px-4 py-2 cursor-pointer" data-key="driver">
-                                                                Driver <span class="sort-indicator"></span>
-                                                            </th>
-                                                            <th class="px-4 py-2 cursor-pointer" data-key="constructor">
-                                                                Constructor <span class="sort-indicator"></span>
-                                                            </th>
-                                                            <th class="px-4 py-2 cursor-pointer" data-key="time">
-                                                                Time <span class="sort-indicator"></span>
-                                                            </th>
-                                                            <th class="px-4 py-2 cursor-pointer" data-key="points">
-                                                                Points <span class="sort-indicator"></span>
-                                                            </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="raceResultsTableBody" class="text-gray-700">
-                                                        <!-- Rows will be dynamically added here -->
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                    </div>
+
+                                    <!-- Race Results Table -->
+                                    <div class="w-full md:w-1/2">
+                                        <h2 id="raceResultsHeader" class="text-2xl font-bold mb-4">Race</h2>
+                                        <!-- Responsive Wrapper -->
+                                        <div class="overflow-x-auto">
+                                            <table class="table-auto w-full bg-white rounded-lg shadow border-collapse">
+                                                <thead class="bg-gray-200 text-left">
+                                                    <tr>
+                                                        <th class="px-4 py-2 cursor-pointer" data-key="position">
+                                                            Pos. <span class="sort-indicator"></span>
+                                                        </th>
+                                                        <th class="px-4 py-2 cursor-pointer" data-key="driver">
+                                                            Driver <span class="sort-indicator"></span>
+                                                        </th>
+                                                        <th class="px-4 py-2 cursor-pointer" data-key="constructor">
+                                                            Constructor <span class="sort-indicator"></span>
+                                                        </th>
+                                                        <th class="px-4 py-2 cursor-pointer" data-key="time">
+                                                            Time <span class="sort-indicator"></span>
+                                                        </th>
+                                                        <th class="px-4 py-2 cursor-pointer" data-key="points">
+                                                            Points <span class="sort-indicator"></span>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="raceResultsTableBody" class="text-gray-700">
+                                                    <!-- Rows will be dynamically added here -->
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
-                            </section>
+                            </div>
+                        </section>
                     </div>
                 </div>
             </section>
         </div>
 
 
-    </div>
-</section>
-
-
-<!-- Favorites Popup -->
-<dialog id="favoritesPopup" class="bg-gray-800 rounded-lg shadow-lg p-6 max-w-4xl mx-auto">
-    <h2 class="text-2xl font-bold mb-4 text-white">Favorites</h2>
-
-    <!-- Three Divs for Drivers, Constructors, and Circuits -->
-    <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
-        <!-- Drivers Section -->
-        <div class="w-full md:w-1/3 bg-gray-700 rounded-lg p-4">
-            <h3 class="text-xl font-semibold text-white mb-2">Drivers</h3>
-            <ul id="favoritesDrivers" class="space-y-2 text-gray-300">
-                <!-- Driver favorites will be dynamically added here -->
-            </ul>
         </div>
+        </section>
 
-        <!-- Constructors Section -->
-        <div class="w-full md:w-1/3 bg-gray-700 rounded-lg p-4">
-            <h3 class="text-xl font-semibold text-white mb-2">Constructors</h3>
-            <ul id="favoritesConstructors" class="space-y-2 text-gray-300">
-                <!-- Constructor favorites will be dynamically added here -->
-            </ul>
-        </div>
 
-        <!-- Circuits Section -->
-        <div class="w-full md:w-1/3 bg-gray-700 rounded-lg p-4">
-            <h3 class="text-xl font-semibold text-white mb-2">Circuits</h3>
-            <ul id="favoritesCircuits" class="space-y-2 text-gray-300">
-                <!-- Circuit favorites will be dynamically added here -->
-            </ul>
-        </div>
-    </div>
+        <!-- favourites Popup -->
+        <dialog id="favouritesPopup" class="bg-gray-800 rounded-lg shadow-lg p-6 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold mb-4 text-white">favourites</h2>
 
-    <!-- Buttons -->
-    <div class="mt-4 flex justify-end space-x-4">
-        <button id="clearFavorites" class="bg-yellow-500 px-4 py-2 rounded hover:bg-yellow-600 text-gray-900">
-            Clear Favorites
-        </button>
-        <button id="closeFavorites" class="bg-red-600 px-4 py-2 rounded hover:bg-red-700">
-            Close
-        </button>
-    </div>
-</dialog>
-<dialog id="constructorPopup" class="bg-gray-800 rounded-lg shadow-lg p-4 max-w-[90%] max-h-[90vh] mx-auto overflow-hidden resize">
-    <h2 id="constructorPopupTitle" class="text-2xl font-bold mb-4 text-white">Constructor Details</h2>
-    <div class="flex flex-col md:flex-row h-[calc(100%-5rem)]">
-        <!-- Left Column: Constructor Details -->
-        <div id="constructorDetails" class="text-gray-300 space-y-2 md:w-1/2 md:pr-4 overflow-y-auto">
-            <!-- Constructor details will be dynamically added here -->
-        </div>
-        <!-- Right Column: Race Results Table -->
-        <div class="md:w-1/2 md:pl-4 mx-5 px-12">
-            <!-- Wrap the table in a div with overflow and fixed height -->
-            <div class="overflow-y-auto max-h-60">
-                <table class="table-auto table-fixed w-full bg-white rounded-lg shadow border-collapse">
-                    <thead class="bg-gray-200 text-left sticky top-0 z-10">
-                        <tr>
-                            <th class="w-1/4 px-4 py-2 cursor-pointer" data-key="position">
-                                Pos. <span class="sort-indicator"></span>
-                            </th>
-                            <th class="w-1/4 px-4 py-2 cursor-pointer" data-key="driver">
-                                Driver <span class="sort-indicator"></span>
-                            </th>
-                            <th class="w-1/4 px-4 py-2 cursor-pointer" data-key="time">
-                                Time <span class="sort-indicator"></span>
-                            </th>
-                            <th class="w-1/4 px-4 py-2 cursor-pointer" data-key="points">
-                                Points <span class="sort-indicator"></span>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody id="constructorResults" class="text-gray-700">
-                        <!-- Rows will be dynamically added here -->
-                    </tbody>
-                </table>
+            <!-- Three Divs for Drivers, Constructors, and Circuits -->
+            <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
+                <!-- Drivers Section -->
+                <div class="w-full md:w-1/3 bg-gray-700 rounded-lg p-4">
+                    <h3 class="text-xl font-semibold text-white mb-2">Drivers</h3>
+                    <ul id="favouritesDrivers" class="space-y-2 text-gray-300">
+                        <!-- Driver favourites will be dynamically added here -->
+                    </ul>
+                </div>
+
+                <!-- Constructors Section -->
+                <div class="w-full md:w-1/3 bg-gray-700 rounded-lg p-4">
+                    <h3 class="text-xl font-semibold text-white mb-2">Constructors</h3>
+                    <ul id="favouritesConstructors" class="space-y-2 text-gray-300">
+                        <!-- Constructor favourites will be dynamically added here -->
+                    </ul>
+                </div>
+
+                <!-- Circuits Section -->
+                <div class="w-full md:w-1/3 bg-gray-700 rounded-lg p-4">
+                    <h3 class="text-xl font-semibold text-white mb-2">Circuits</h3>
+                    <ul id="favouritesCircuits" class="space-y-2 text-gray-300">
+                        <!-- Circuit favourites will be dynamically added here -->
+                    </ul>
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="mt-4 flex justify-between">
-        <!-- Add to Favorites Button -->
-        <button id="constructorAddToFavoritesButton" class="bg-green-600 px-4 py-2 rounded hover:bg-green-700 text-white">
-            Add to Favorites
-        </button>
-        <!-- Close Button -->
-        <button id="closeConstructorPopup" class="bg-red-600 px-4 py-2 rounded hover:bg-red-700 text-white">
-            Close
-        </button>
-    </div>
-</dialog>
 
-
-
-<dialog id="driverPopup" class="bg-gray-800 rounded-lg shadow-lg p-4 max-w-[90%] max-h-[90vh] mx-auto overflow-hidden resize">
-    <h2 id="driverPopupTitle" class="text-2xl font-bold mb-4 text-white">Driver Details</h2>
-    <div class="flex flex-col md:flex-row h-[calc(100%-5rem)]">
-        <!-- Left Column: Driver Details -->
-        <div id="driverDetails" class="text-gray-300 space-y-2 md:w-1/2 md:pr-4 overflow-y-auto">
-            <!-- Driver details will be dynamically added here -->
-        </div>
-        <!-- Right Column: Race Results Table -->
-        <div class="md:w-1/2 md:pl-4 mx-5 px-12">
-            <!-- Wrap the table in a div with overflow and fixed height -->
-            <div class="overflow-y-auto max-h-60">
-                <table class="table-auto table-fixed w-full bg-white rounded-lg shadow border-collapse">
-                    <thead class="bg-gray-200 text-left sticky top-0 z-10">
-                        <tr>
-                            <th class="w-1/4 px-4 py-2 cursor-pointer" data-key="race">
-                                Race <span class="sort-indicator"></span>
-                            </th>
-                            <th class="w-1/4 px-4 py-2 cursor-pointer" data-key="position">
-                                Position <span class="sort-indicator"></span>
-                            </th>
-                            <th class="w-1/4 px-4 py-2 cursor-pointer" data-key="time">
-                                Time <span class="sort-indicator"></span>
-                            </th>
-                            <th class="w-1/4 px-4 py-2 cursor-pointer" data-key="points">
-                                Points <span class="sort-indicator"></span>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody id="driverResults" class="text-gray-700">
-                        <!-- Rows will be dynamically added here -->
-                    </tbody>
-                </table>
+            <!-- Buttons -->
+            <div class="mt-4 flex justify-end space-x-4">
+                <button id="clearfavourites" class="bg-yellow-500 px-4 py-2 rounded hover:bg-yellow-600 text-gray-900">
+                    Clear favourites
+                </button>
+                <button id="closefavourites" class="bg-red-600 px-4 py-2 rounded hover:bg-red-700">
+                    Close
+                </button>
             </div>
-        </div>
-    </div>
-    <div class="mt-4 flex justify-between">
-        <!-- Add to Favorites Button -->
-        <button id="driverAddToFavoritesButton" class="bg-green-600 px-4 py-2 rounded hover:bg-green-700 text-white">
-            Add to Favorites
-        </button>
-        <!-- Close Button -->
-        <button id="closeDriverPopup" class="bg-red-600 px-4 py-2 rounded hover:bg-red-700 text-white">
-            Close
-        </button>
-    </div>
-</dialog>
+        </dialog>
+        <dialog id="constructorPopup"
+            class="bg-gray-800 rounded-lg shadow-lg p-4 max-w-[90%] max-h-[90vh] mx-auto overflow-hidden resize">
+            <h2 id="constructorPopupTitle" class="text-2xl font-bold mb-4 text-white">Constructor Details</h2>
+            <div class="flex flex-col md:flex-row h-[calc(100%-5rem)]">
+                <!-- Left Column: Constructor Details -->
+                <div id="constructorDetails" class="text-gray-300 space-y-2 md:w-1/2 md:pr-4 overflow-y-auto">
+                    <!-- Constructor details will be dynamically added here -->
+                </div>
+                <!-- Right Column: Race Results Table -->
+                <div class="md:w-1/2 md:pl-4 mx-5 px-12">
+                    <!-- Wrap the table in a div with overflow and fixed height -->
+                    <div class="overflow-y-auto max-h-60">
+                        <table class="table-auto table-fixed w-full bg-white rounded-lg shadow border-collapse">
+                            <thead class="bg-gray-200 text-left sticky top-0 z-10">
+                                <tr>
+                                    <th class="w-1/4 px-4 py-2 cursor-pointer" data-key="position">
+                                        Pos. <span class="sort-indicator"></span>
+                                    </th>
+                                    <th class="w-1/4 px-4 py-2 cursor-pointer" data-key="driver">
+                                        Driver <span class="sort-indicator"></span>
+                                    </th>
+                                    <th class="w-1/4 px-4 py-2 cursor-pointer" data-key="time">
+                                        Time <span class="sort-indicator"></span>
+                                    </th>
+                                    <th class="w-1/4 px-4 py-2 cursor-pointer" data-key="points">
+                                        Points <span class="sort-indicator"></span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="constructorResults" class="text-gray-700">
+                                <!-- Rows will be dynamically added here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4 flex justify-between">
+                <!-- Add to favourites Button -->
+                <button id="constructorAddTofavouritesButton"
+                    class="bg-green-600 px-4 py-2 rounded hover:bg-green-700 text-white">
+                    Add to favourites
+                </button>
+                <!-- Close Button -->
+                <button id="closeConstructorPopup" class="bg-red-600 px-4 py-2 rounded hover:bg-red-700 text-white">
+                    Close
+                </button>
+            </div>
+        </dialog>
 
 
 
-<dialog id="circuitPopup" class="bg-gray-800 rounded-lg shadow-lg p-4 max-w-[90%] max-h-[90vh] mx-auto overflow-hidden resize">
-    <h2 id="circuitPopupTitle" class="text-2xl font-bold mb-4 text-white">Circuit Details</h2>
-    <div class="flex flex-col h-[calc(100%-5rem)]">
-        <!-- Circuit Details -->
-        <div id="circuitDetails" class="text-gray-300 space-y-2 overflow-y-auto">
-            <!-- Circuit details will be dynamically added here -->
-        </div>
-    </div>
-    <div class="mt-4 flex justify-between">
-        <!-- Add to Favorites Button -->
-        <button id="circuitAddToFavoritesButton" class="bg-green-600 px-4 py-2 rounded hover:bg-green-700 text-white">
-            Add to Favorites
-        </button>
-        <!-- Close Button -->
-        <button id="closeCircuitPopup" class="bg-red-600 px-4 py-2 rounded hover:bg-red-700 text-white">
-            Close
-        </button>
-    </div>
-</dialog>
+        <dialog id="driverPopup"
+            class="bg-gray-800 rounded-lg shadow-lg p-4 max-w-[90%] max-h-[90vh] mx-auto overflow-hidden resize">
+            <h2 id="driverPopupTitle" class="text-2xl font-bold mb-4 text-white">Driver Details</h2>
+            <div class="flex flex-col md:flex-row h-[calc(100%-5rem)]">
+                <!-- Driver Details -->
+                <div class="flex justify-center items-center px-4 py-2 shadow rounded-lg p-6 mt-8">
+                    <!-- image generated by ChatGPT -->
+                    <img src="./img/driver.png" alt="image of a driver">
+                </div>
+
+                <div id="driverDetails" class="text-gray-300 space-y-2 md:w-1/2 md:pr-4 overflow-y-auto">
+                    <!-- Driver details will be dynamically added here -->
+                </div>
+                <!-- Right Column: Race Results Table -->
+                <div class="md:w-1/2 md:pl-4 mx-5 px-12">
+                    <!-- Wrap the table in a div with overflow and fixed height -->
+                    <div class="overflow-y-auto max-h-60">
+                        <table class="table-auto table-fixed w-full bg-white rounded-lg shadow border-collapse">
+                            <thead class="bg-gray-200 text-left sticky top-0 z-10">
+                                <tr>
+                                    <th class="w-1/4 px-4 py-2 cursor-pointer" data-key="race">
+                                        Race <span class="sort-indicator"></span>
+                                    </th>
+                                    <th class="w-1/4 px-4 py-2 cursor-pointer" data-key="position">
+                                        Position <span class="sort-indicator"></span>
+                                    </th>
+                                    <th class="w-1/4 px-4 py-2 cursor-pointer" data-key="time">
+                                        Time <span class="sort-indicator"></span>
+                                    </th>
+                                    <th class="w-1/4 px-4 py-2 cursor-pointer" data-key="points">
+                                        Points <span class="sort-indicator"></span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="driverResults" class="text-gray-700">
+                                <!-- Rows will be dynamically added here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4 flex justify-between">
+                <!-- Add to favourites Button -->
+                <button id="driverAddTofavouritesButton"
+                    class="bg-green-600 px-4 py-2 rounded hover:bg-green-700 text-white">
+                    Add to favourites
+                </button>
+                <!-- Close Button -->
+                <button id="closeDriverPopup" class="bg-red-600 px-4 py-2 rounded hover:bg-red-700 text-white">
+                    Close
+                </button>
+            </div>
+        </dialog>
+
+
+
+        <dialog id="circuitPopup"
+            class="bg-gray-800 rounded-lg shadow-lg p-4 max-w-[90%] max-h-[90vh] mx-auto overflow-hidden resize">
+            <h2 id="circuitPopupTitle" class="text-2xl font-bold mb-4 text-white">Circuit Details</h2>
+            <div class="flex flex-col h-[calc(100%-5rem)]">
+                <!-- Circuit Details -->
+                <div class="flex justify-center items-center px-4 py-2 bg-white shadow rounded-lg p-6 mt-8"
+                    style="width: 500px; height: 500px;">
+                    <!-- image from https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Circuit_Red_Bull_Ring.svg/2560px-Circuit_Red_Bull_Ring.svg.png -->
+                    <img src="./img/track.png" alt="image of a track"
+                        style="width: 500px; height: 500px; object-fit: contain; background-color: transparent;">
+                </div>
+
+                <div id="circuitDetails" class="text-gray-300 space-y-2 overflow-y-auto">
+                    <!-- Circuit details will be dynamically added here -->
+                </div>
+            </div>
+            <div class="mt-4 flex justify-between">
+                <!-- Add to favourites Button -->
+                <button id="circuitAddTofavouritesButton"
+                    class="bg-green-600 px-4 py-2 rounded hover:bg-green-700 text-white">
+                    Add to favourites
+                </button>
+                <!-- Close Button -->
+                <button id="closeCircuitPopup" class="bg-red-600 px-4 py-2 rounded hover:bg-red-700 text-white">
+                    Close
+                </button>
+            </div>
+        </dialog>
 
 
     </main>
 
     <template id="results-button-template">
         <button
-        class="bg-red-600 text-white py-2 px-4 rounded shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50 ml-4 font-bold uppercase tracking-wide">
-        View Results
+            class="bg-red-600 text-white py-2 px-4 rounded shadow hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50 ml-4 font-bold uppercase tracking-wide">
+            View Results
         </button>
-      </template>
-      <div id="button-container"></div>
+    </template>
+    <div id="button-container"></div>
 
     <!-- Footer -->
     <footer class="bg-gray-800 py-4 text-center">
-        <p class="text-gray-500">© 2024 F1 Dashboard. All rights reserved.</p>
+        <p class="text-gray-500">© 2024 F1 Dashboard.</p>
     </footer>
 </body>
+
 </html>
