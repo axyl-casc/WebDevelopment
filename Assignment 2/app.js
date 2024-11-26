@@ -303,7 +303,7 @@ async function showConstructorPopup(constructorId) {
         
 
         // Add event listener for "Add to Favorites" button
-        const addToFavoritesButton = document.querySelector('#addToFavoritesButton');
+        const addToFavoritesButton = document.querySelector('#constructorAddToFavoritesButton');
         addToFavoritesButton.onclick = () => {
             addToFavorites("constructors", {
                 id: constructor.id,
