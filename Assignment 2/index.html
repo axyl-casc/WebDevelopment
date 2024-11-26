@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>F1 Dashboard</title>
     <script src="app.js" defer></script>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="./tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-900 text-white">
     <!-- Header -->
@@ -163,29 +163,30 @@
         </button>
     </div>
 </dialog>
-
-<dialog id="constructorPopup" class="bg-gray-800 rounded-lg shadow-lg p-4 max-w-[90%] max-h-[90vh] mx-auto overflow-auto resize">
+<dialog id="constructorPopup" class="bg-gray-800 rounded-lg shadow-lg p-4 max-w-[90%] max-h-[90vh] mx-auto overflow-hidden resize">
     <h2 id="constructorPopupTitle" class="text-2xl font-bold mb-4 text-white">Constructor Details</h2>
-    <div class="flex flex-col md:flex-row h-full">
+    <div class="flex flex-col md:flex-row h-[calc(100%-5rem)]">
         <!-- Left Column: Constructor Details -->
         <div id="constructorDetails" class="text-gray-300 space-y-2 md:w-1/2 md:pr-4 overflow-y-auto">
             <!-- Constructor details will be dynamically added here -->
         </div>
         <!-- Right Column: Race Results Table -->
-        <div class="md:w-1/2 md:pl-4 overflow-y-auto mx-5 px-12">
-            <table class="table-auto w-full bg-white rounded-lg shadow border-collapse">
-                    <thead class="bg-gray-200 text-left sticky top-0">
+        <div class="md:w-1/2 md:pl-4 mx-5 px-12">
+            <!-- Wrap the table in a div with overflow and fixed height -->
+            <div class="overflow-y-auto max-h-60">
+                <table class="table-auto table-fixed w-full bg-white rounded-lg shadow border-collapse">
+                    <thead class="bg-gray-200 text-left sticky top-0 z-10">
                         <tr>
-                            <th class="px-4 py-2 cursor-pointer" data-key="position">
+                            <th class="w-1/4 px-4 py-2 cursor-pointer" data-key="position">
                                 Pos. <span class="sort-indicator"></span>
                             </th>
-                            <th class="px-4 py-2 cursor-pointer" data-key="driver">
+                            <th class="w-1/4 px-4 py-2 cursor-pointer" data-key="driver">
                                 Driver <span class="sort-indicator"></span>
                             </th>
-                            <th class="px-4 py-2 cursor-pointer" data-key="time">
+                            <th class="w-1/4 px-4 py-2 cursor-pointer" data-key="time">
                                 Time <span class="sort-indicator"></span>
                             </th>
-                            <th class="px-4 py-2 cursor-pointer" data-key="points">
+                            <th class="w-1/4 px-4 py-2 cursor-pointer" data-key="points">
                                 Points <span class="sort-indicator"></span>
                             </th>
                         </tr>
@@ -194,11 +195,12 @@
                         <!-- Rows will be dynamically added here -->
                     </tbody>
                 </table>
+            </div>
         </div>
     </div>
     <div class="mt-4 flex justify-between">
         <!-- Add to Favorites Button -->
-        <button id="addToFavoritesButton" class="bg-green-600 px-4 py-2 rounded hover:bg-green-700 text-white">
+        <button id="constructorAddToFavoritesButton" class="bg-green-600 px-4 py-2 rounded hover:bg-green-700 text-white">
             Add to Favorites
         </button>
         <!-- Close Button -->
@@ -208,28 +210,32 @@
     </div>
 </dialog>
 
-<dialog id="driverPopup" class="bg-gray-800 rounded-lg shadow-lg p-4 max-w-[90%] max-h-[90vh] mx-auto overflow-auto resize">
+
+
+<dialog id="driverPopup" class="bg-gray-800 rounded-lg shadow-lg p-4 max-w-[90%] max-h-[90vh] mx-auto overflow-hidden resize">
     <h2 id="driverPopupTitle" class="text-2xl font-bold mb-4 text-white">Driver Details</h2>
-    <div class="flex flex-col md:flex-row h-full">
+    <div class="flex flex-col md:flex-row h-[calc(100%-5rem)]">
         <!-- Left Column: Driver Details -->
         <div id="driverDetails" class="text-gray-300 space-y-2 md:w-1/2 md:pr-4 overflow-y-auto">
             <!-- Driver details will be dynamically added here -->
         </div>
         <!-- Right Column: Race Results Table -->
-        <div class="md:w-1/2 md:pl-4 overflow-y-auto mx-5 px-12">
-            <table class="table-auto w-full bg-white rounded-lg shadow border-collapse">
-                    <thead class="bg-gray-200 text-left sticky top-0">
+        <div class="md:w-1/2 md:pl-4 mx-5 px-12">
+            <!-- Wrap the table in a div with overflow and fixed height -->
+            <div class="overflow-y-auto max-h-60">
+                <table class="table-auto table-fixed w-full bg-white rounded-lg shadow border-collapse">
+                    <thead class="bg-gray-200 text-left sticky top-0 z-10">
                         <tr>
-                            <th class="px-4 py-2 cursor-pointer" data-key="race">
+                            <th class="w-1/4 px-4 py-2 cursor-pointer" data-key="race">
                                 Race <span class="sort-indicator"></span>
                             </th>
-                            <th class="px-4 py-2 cursor-pointer" data-key="position">
+                            <th class="w-1/4 px-4 py-2 cursor-pointer" data-key="position">
                                 Position <span class="sort-indicator"></span>
                             </th>
-                            <th class="px-4 py-2 cursor-pointer" data-key="time">
+                            <th class="w-1/4 px-4 py-2 cursor-pointer" data-key="time">
                                 Time <span class="sort-indicator"></span>
                             </th>
-                            <th class="px-4 py-2 cursor-pointer" data-key="points">
+                            <th class="w-1/4 px-4 py-2 cursor-pointer" data-key="points">
                                 Points <span class="sort-indicator"></span>
                             </th>
                         </tr>
@@ -238,11 +244,12 @@
                         <!-- Rows will be dynamically added here -->
                     </tbody>
                 </table>
+            </div>
         </div>
     </div>
     <div class="mt-4 flex justify-between">
         <!-- Add to Favorites Button -->
-        <button id="addToFavoritesButton" class="bg-green-600 px-4 py-2 rounded hover:bg-green-700 text-white">
+        <button id="driverAddToFavoritesButton" class="bg-green-600 px-4 py-2 rounded hover:bg-green-700 text-white">
             Add to Favorites
         </button>
         <!-- Close Button -->
@@ -252,16 +259,28 @@
     </div>
 </dialog>
 
-<!-- Circuit Popup -->
-<dialog id="circuitPopup" class="bg-gray-800 rounded-lg shadow-lg p-6">
-    <h2 class="text-2xl font-bold mb-4">Circuit Details</h2>
-    <div id="circuitDetails" class="text-gray-300">
-        <!-- Circuit details will be dynamically added here -->
+
+
+<dialog id="circuitPopup" class="bg-gray-800 rounded-lg shadow-lg p-4 max-w-[90%] max-h-[90vh] mx-auto overflow-hidden resize">
+    <h2 id="circuitPopupTitle" class="text-2xl font-bold mb-4 text-white">Circuit Details</h2>
+    <div class="flex flex-col h-[calc(100%-5rem)]">
+        <!-- Circuit Details -->
+        <div id="circuitDetails" class="text-gray-300 space-y-2 overflow-y-auto">
+            <!-- Circuit details will be dynamically added here -->
+        </div>
     </div>
-    <button id="closeCircuitPopup" class="mt-4 bg-red-600 px-4 py-2 rounded hover:bg-red-700">
-        Close
-    </button>
+    <div class="mt-4 flex justify-between">
+        <!-- Add to Favorites Button -->
+        <button id="circuitAddToFavoritesButton" class="bg-green-600 px-4 py-2 rounded hover:bg-green-700 text-white">
+            Add to Favorites
+        </button>
+        <!-- Close Button -->
+        <button id="closeCircuitPopup" class="bg-red-600 px-4 py-2 rounded hover:bg-red-700 text-white">
+            Close
+        </button>
+    </div>
 </dialog>
+
 
     </main>
 

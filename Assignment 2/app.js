@@ -102,8 +102,13 @@ document.querySelector('#raceResultsHeader').innerHTML = `
         const row = document.createElement('tr');
         row.innerHTML = `
             <td class="border px-4 py-2" data-key="position">${qualify.position}</td>
-            <td class="border px-4 py-2" data-key="driver">${qualify.driver.forename}<br>${qualify.driver.surname}</td>
-<td class="border px-4 py-2" data-key="constructor">
+<td class="border px-4 py-2" data-key="driver">
+    <button 
+        class="underline"
+        onclick="showDriverPopup('${qualify.driver.id}')">
+        ${qualify.driver.forename} ${qualify.driver.surname}
+    </button>
+</td><td class="border px-4 py-2" data-key="constructor">
     <button 
         class="underline"
         onclick="showConstructorPopup('${qualify.constructor.id}')">
@@ -124,7 +129,13 @@ document.querySelector('#raceResultsHeader').innerHTML = `
         const row = document.createElement('tr');
         row.innerHTML = `
             <td class="border px-4 py-2" data-key="position">${result.position}</td>
-            <td class="border px-4 py-2" data-key="driver">${result.driver.forename}<br>${result.driver.surname}</td>
+<td class="border px-4 py-2" data-key="driver">
+    <button 
+        class="underline"
+        onclick="showDriverPopup('${result.driver.id}')">
+        ${result.driver.forename} ${result.driver.surname}
+    </button>
+</td>
 <td class="border px-4 py-2" data-key="constructor">
     <button 
         class="underline"
@@ -139,10 +150,10 @@ document.querySelector('#raceResultsHeader').innerHTML = `
 }
 
 async function showDriverPopup(driverId) {
+    console.log("Showing driver popup");
     try {
         // Fetch driver details
-        const driverDetailsUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1//driverResults.php? 
-     driver=${driverId}&season=${localStorage.getItem("season")}`;
+        const driverDetailsUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1//drivers.php?id=${driverId}`;
         const driver = await fetchData(driverDetailsUrl, `driver_${driverId}`);
         
         if (!driver) {
@@ -155,10 +166,13 @@ async function showDriverPopup(driverId) {
         // Populate the driver details
         const detailsContainer = document.querySelector('#driverDetails');
         detailsContainer.innerHTML = `
-            <p><strong>First Name:</strong> ${driver.givenName}</p>
-            <p><strong>Last Name:</strong> ${driver.familyName}</p>
+            <p><strong>First Name:</strong> ${driver.forename}</p>
+            <p><strong>Last Name:</strong> ${driver.surname}</p>
+            <p><strong>Driver Number:</strong> ${driver.number}</p>
+            <p><strong>Code:</strong> ${driver.code}</p>
+            <p><strong>Date of Birth:</strong> ${driver.dob}</p>
             <p><strong>Nationality:</strong> ${driver.nationality}</p>
-            <p><strong>Date of Birth:</strong> ${driver.dateOfBirth}</p>
+            <p><strong>More Info:</strong> <a href="${driver.url}" target="_blank">Wikipedia</a></p>
         `;
 
         // Fetch race results for the driver
@@ -173,7 +187,7 @@ async function showDriverPopup(driverId) {
             raceResults.forEach(result => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td class="border px-4 py-2" data-key="race">${result.raceName}</td>
+                    <td class="border px-4 py-2" data-key="race">${result.race.name}</td>
                     <td class="border px-4 py-2" data-key="position">${result.position || "N/A"}</td>
                     <td class="border px-4 py-2" data-key="time">${result.time || "N/A"}</td>
                     <td class="border px-4 py-2" data-key="points">${result.points || "N/A"}</td>
@@ -191,11 +205,11 @@ async function showDriverPopup(driverId) {
         }
 
         // Add event listener for "Add to Favorites" button
-        const addToFavoritesButton = document.querySelector('#addToFavoritesButton');
+        const addToFavoritesButton = document.querySelector('#driverAddToFavoritesButton');
         addToFavoritesButton.onclick = () => {
             addToFavorites("drivers", {
-                id: driver.driverId,
-                name: `${driver.givenName} ${driver.familyName}`,
+                id: driverId,
+                name: `${driver.forename} ${driver.surname}`,
                 nationality: driver.nationality
             });
         };
