@@ -29,6 +29,7 @@ async function fetchData(url, storageKey) {
 
 // Populate seasons dropdown
 async function populateSeasons() {
+    showView(homeView);
     const url = 'https://www.randyconnolly.com/funwebdev/3rd/api/f1/races.php'; // Update API endpoint
     const data = await fetchData(url, 'raceList');
     const uniqueYears = [...new Set(data.map(race => race.year))];
@@ -38,7 +39,6 @@ async function populateSeasons() {
         option.textContent = uniqueYear;
         seasonSelect.appendChild(option);
     });
-    showView(homeView);
 }
 
 async function displayRaces(season) {
@@ -82,7 +82,14 @@ async function displayRaceDetails(race) {
     document.querySelector('#raceDetailsView').classList.remove('hidden');
 
     // Update the headers with race name and date
-    document.querySelector("#raceDetailsHeader").innerHTML = ` <h3 class="text-2xl font-bold mb-2">${race.name}</h3><p class="text-gray-600">Year: ${race.year} - Round: ${race.round}</p>`;
+    document.querySelector("#raceDetailsHeader").innerHTML =
+    `
+    <h3>
+        <button class="text-black underline text-lg hover:text-gray-800 ml-2"
+            onclick="showCircuitPopup('${race.circuit.id}')">${race.name}
+        </button>
+    </h3>
+    <p class="text-gray-600">Year: ${race.year} - Round: ${race.round}</p>`;
 // Update the Qualifying Header
 qualifyingHeader.innerHTML = `
     <h4 class="text-lg font-semibold mt-4">Qualifying</h4>
@@ -222,18 +229,6 @@ async function showDriverPopup(driverId) {
     }
 }
 
-// Helper function to fetch data
-async function fetchData(url, cacheKey) {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error('Network response was not ok');
-    return response.json();
-}
-
-// Mock function to simulate adding items to favorites
-function addToFavorites(type, data) {
-    console.log(`Added to favorites (${type}):`, data);
-}
-
 
 async function showConstructorPopup(constructorId) {
     try {
@@ -320,6 +315,49 @@ async function showConstructorPopup(constructorId) {
     }
 }
 
+
+async function showCircuitPopup(circuitId) {
+    try {
+
+        const circuitDetailsUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1//circuits.php?id=${circuitId}`;
+        const circuit = await fetchData(circuitDetailsUrl, `circuit_${circuitId}`);
+        
+        // Populate circuit details dynamically
+        const circuitDetailsContainer = document.querySelector('#circuitDetails');
+        circuitDetailsContainer.innerHTML = `
+            <p><strong>Name:</strong> ${circuit.name}</p>
+            <p><strong>Location:</strong> ${circuit.location}</p>
+            <p><strong>Country:</strong> ${circuit.country}</p>
+            <p><strong>Coordinates:</strong> (${circuit.lat}, ${circuit.lng})</p>
+            <p><strong>More Info:</strong> <a href="${circuit.url}" target="_blank" class="underline text-blue-500 hover:text-blue-700">Wikipedia</a></p>
+        `;
+
+        // Add event listener for "Add to Favorites" button
+        const addToFavoritesButton = document.querySelector('#circuitAddToFavoritesButton');
+        addToFavoritesButton.onclick = () => {
+            addToFavorites("circuits", {
+                id: circuit.id,
+                name: circuit.name,
+                location: circuit.location,
+                country: circuit.country
+            });
+
+        };
+
+        // Add event listener for "Close" button
+        const closeButton = document.querySelector('#closeCircuitPopup');
+        closeButton.onclick = () => {
+            const popup = document.querySelector('#circuitPopup');
+            popup.close();
+        };
+
+        // Show the popup
+        const popup = document.querySelector('#circuitPopup');
+        popup.showModal();
+    } catch (error) {
+        console.error("Error displaying circuit details:", error);
+    }
+}
 
 
 // Show/hide views
@@ -473,8 +511,10 @@ function addToFavorites(type, item) {
         favorites[type].push(item);
         saveFavorites(favorites); // Save updated favorites to localStorage
         console.log(`${item.name} has been added to your favorites!`);
+        alert(`${item.name} has been added to your favorites!`);
     } else {
         console.log(`${item.name} is already in your favorites!`);
+        alert(`${item.name} is already in your favorites!`);
     }
 }
 
