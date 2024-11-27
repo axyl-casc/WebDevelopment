@@ -173,6 +173,7 @@ async function displayRaces(season) {
     response.forEach(race => {
         const li = document.createElement('li');
         li.className = "flex justify-between items-center py-2 border-b border-gray-300";
+        race.year = season;
 
         li.innerHTML = `${race.round}. ${race.name}<br>(${race.date})`;
         const button = buttonTemplate.content.firstElementChild.cloneNode(true);
@@ -220,13 +221,16 @@ async function displayRaces(season) {
 // Display race details
 async function displayRaceDetails(race) {
     // API URLs
-    const resultsUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?race=${race.round}&season=${localStorage.getItem("season")}`;
-    const qualifyingUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=${race.round}&season=${localStorage.getItem("season")}`;
+    console.log(race);
+    const resultsUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/results.php?race=${race.id}&season=${race.year}`;
+    const qualifyingUrl = `https://www.randyconnolly.com/funwebdev/3rd/api/f1/qualifying.php?race=${race.id}&season=${race.year}`;
 
     // Fetch results and qualifying data
-    const results = await fetchData(resultsUrl, `results_${race.round}_${localStorage.getItem("season")}`);
-    const qualifying = await fetchData(qualifyingUrl, `qualifying_${race.round}_${localStorage.getItem("season")}`);
+    const results = await fetchData(resultsUrl, `results_${race.id}_${race.year}`);
+    const qualifying = await fetchData(qualifyingUrl, `qualifying_${race.id}_${race.year}`);
 
+    console.log("Results:");
+    console.log(results);
     // hide selection message
     document.querySelector("#no-race").classList.add("hidden");
 
